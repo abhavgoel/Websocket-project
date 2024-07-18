@@ -33,3 +33,6 @@ Once the server is running:
 2. Select the processing options you want (Echo, Reverse, Character Occurrence).
 3. Click the "Send" button.
 4. Watch as the processed message appears in the output area in real-time.
+
+## UI
+<img width="1252" alt="Screenshot 2024-07-19 at 12 34 13 AM" src="https://github.com/user-attachments/assets/9adcef7e-5cc0-4aca-83fe-d51976b9e6eb">
