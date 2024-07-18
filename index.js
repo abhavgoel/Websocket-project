@@ -44,8 +44,8 @@ async function processMessage(socket, message, options) {
             await sleep(100);
         } else {
             socket.emit('output', { type: 'occurrence', data: 'Message too short for occurrence count' });
-            await sl
-            socket.emit('output', {  data: "\n" });eep(100);
+            await sleep(100);
+            socket.emit('output', {  data: "\n" });
         }
     }
 }
