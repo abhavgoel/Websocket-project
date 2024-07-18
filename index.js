@@ -25,6 +25,7 @@ async function processMessage(socket, message, options) {
             socket.emit('output', { type: 'echo', data: char });
             await sleep(100);
         }
+        socket.emit('output', {  data: "\n" });
     }
 
     if (options.reverse) {
@@ -32,6 +33,7 @@ async function processMessage(socket, message, options) {
             socket.emit('output', { type: 'reverse', data: char });
             await sleep(100);
         }
+        socket.emit('output', {  data: "\n" });
     }
 
     if (options.occurrence) {
@@ -42,7 +44,8 @@ async function processMessage(socket, message, options) {
             await sleep(100);
         } else {
             socket.emit('output', { type: 'occurrence', data: 'Message too short for occurrence count' });
-            await sleep(100);
+            await sl
+            socket.emit('output', {  data: "\n" });eep(100);
         }
     }
 }
