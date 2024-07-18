@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Message Processor</title>
+    <style>
+        #output {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>A WebSocket app to process the messages provided as input</h1>
+    <div>
+        <input type="checkbox" id="echoOption" checked>
+        <label for="echoOption">Echo</label>
+        <input type="checkbox" id="reverseOption" checked>
+        <label for="reverseOption">Reverse</label>
+        <input type="checkbox" id="occurrenceOption" checked>
+        <label for="occurrenceOption">Character Occurrence</label>
+    </div>
+    <div id="output"></div>
+    <input type="text" id="messageInput" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const outputDiv = document.getElementById('output');
+        const messageInput = document.getElementById('messageInput');
+        const echoOption = document.getElementById('echoOption');
+        const reverseOption = document.getElementById('reverseOption');
+        const occurrenceOption = document.getElementById('occurrenceOption');
+
+        let currentLine = document.createElement('div');
+        outputDiv.appendChild(currentLine);
+
+        socket.on('output', function(data) {
+            const messageElement = document.createElement('span');
+            messageElement.textContent = data.data;
+            messageElement.style.color = getColorForType(data.type);
+            currentLine.appendChild(messageElement);
+
+            if (data.data.endsWith('\n')) {
+                currentLine = document.createElement('div');
+                outputDiv.appendChild(currentLine);
+            }
+
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+        });
+
+        function sendMessage() {
+            const message = messageInput.value;
+            const options = {
+                echo: echoOption.checked,
+                reverse: reverseOption.checked,
+                occurrence: occurrenceOption.checked
+            };
+            socket.emit('message', { message, options });
+            messageInput.value = '';
+            outputDiv.innerHTML = ''; // Clear previous output
+            currentLine = document.createElement('div');
+            outputDiv.appendChild(currentLine);
+        }
+
+        function getColorForType(type) {
+            switch(type) {
+                case 'echo': return 'black';
+                case 'reverse': return 'blue';
+                case 'occurrence': return 'green';
+                default: return 'black';
+            }
+        }
+    </script>
+</body>
+</html>
